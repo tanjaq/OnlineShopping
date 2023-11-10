@@ -1,5 +1,5 @@
 function applyAgeRestrictions(customerAge, productType) {
-    if (customerAge <= 21) {
+    if (customerAge < 21) {
         return false;
     }
 
@@ -21,14 +21,14 @@ function applyProductPriceRules(basePrice, productType, hasReturns, isLoyaltyMem
     }
 
     if (isLoyaltyMember) {
-        basePrice *= 0.10;
+        basePrice *= 0.9;
     }
 
     return basePrice;
 }
 
-function generateProductPrice(customerAge) {
-    return customerAge + 15;
+function generateProductPrice() {
+    return basePrice = 20;
 }
 
 function calculateProductPrice(customerAge, productType, hasReturns, isLoyaltyMember) {

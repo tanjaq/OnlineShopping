@@ -3,10 +3,9 @@ const qs = require('querystring')
 const calculatePrice = require('./calculatePrice')
 
 const server = http.createServer(function(request, response) {
-    console.dir(request.param)
+    //console.dir(request.param)
 
     if (request.method == 'POST') {
-        console.log('POST')
         var body = ''
         request.on('data', function(data) {
             body += data
@@ -14,9 +13,9 @@ const server = http.createServer(function(request, response) {
 
         request.on('end', function() {
             const post = qs.parse(body)
-            console.log(post);
+            //console.log(post);
             const result = calculatePrice.calculateProductPrice(Number(post.customerAge), String(post.productType), parseBool(post.hasReturns), parseBool(post.isLoyaltyMember))
-            console.log(result);
+            //console.log(result);
             response.writeHead(200, {'Content-Type': 'text/html'})
             response.end('Result: ' + result)
         })

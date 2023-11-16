@@ -1,9 +1,15 @@
+const Errors = {
+    ProductType:'Incorect product type!',
+    AgeReq:"Customer does not meet the purchase requirements.",
+    AgeType:'Incorect age type!',
+}
+
 function applyAgeRestrictions(customerAge, productType) {
-    if (customerAge <= 21) {
+    if (customerAge < 21) {
         return false;
     }
 
-    if (customerAge >= 21 && customerAge <= 25 && ["C", "D"].includes(productType)) {
+    if (customerAge <= 25 && ["c", "d"].includes(productType)) {
         return false;
     }
 
@@ -12,7 +18,7 @@ function applyAgeRestrictions(customerAge, productType) {
 
 function applyProductPriceRules(basePrice, productType, hasReturns, isLoyaltyMember) {
 
-    if (productType === "D") {
+    if (productType === "d") {
         basePrice *= 1.20;
     }
 
@@ -21,24 +27,33 @@ function applyProductPriceRules(basePrice, productType, hasReturns, isLoyaltyMem
     }
 
     if (isLoyaltyMember) {
-        basePrice *= 0.10;
+        basePrice *= 0.90;
+    }
+
+    if(basePrice<15){
+        basePrice = 15;
     }
 
     return basePrice;
 }
 
-function generateProductPrice(customerAge) {
-    return customerAge + 15;
-}
 
 function calculateProductPrice(customerAge, productType, hasReturns, isLoyaltyMember) {
+
+    // Checking if all inputs are correct type
+    if(!productType.match(/[a-dA-D]/s)) return Errors['ProductType'];
+    customerAge = parseInt(customerAge);
+    if(isNaN(customerAge)) return Errors['AgeType'];
+
+    // Main function
     const MAX_PRODUCT_PRICE = 2000;
+    productType = productType.toLowerCase();
+    productType = productType[0];
 
     if (!applyAgeRestrictions(customerAge, productType)) {
-        return "Customer does not meet the purchase requirements.";
+        return Errors['AgeReq'];
     }
-    let basePrice = generateProductPrice(customerAge);
-    console.log(basePrice);
+    let basePrice = customerAge;
 
     basePrice = applyProductPriceRules(basePrice, productType, hasReturns, isLoyaltyMember);
 
@@ -50,3 +65,4 @@ function calculateProductPrice(customerAge, productType, hasReturns, isLoyaltyMe
 }
 
 exports.calculateProductPrice = calculateProductPrice;
+exports.applyAgeRestrictions = applyAgeRestrictions;

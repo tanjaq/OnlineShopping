@@ -1,5 +1,5 @@
 function applyAgeRestrictions(customerAge, productType) {
-    if (customerAge <= 21) {
+    if (customerAge < 21) { 
         return false;
     }
 
@@ -11,9 +11,8 @@ function applyAgeRestrictions(customerAge, productType) {
 }
 
 function applyProductPriceRules(basePrice, productType, hasReturns, isLoyaltyMember) {
-
     if (productType === "D") {
-        basePrice *= 1.20;
+        basePrice *= 1.2;
     }
 
     if (hasReturns) {
@@ -21,24 +20,37 @@ function applyProductPriceRules(basePrice, productType, hasReturns, isLoyaltyMem
     }
 
     if (isLoyaltyMember) {
-        basePrice *= 0.10;
+        basePrice *= 0.9; 
     }
 
     return basePrice;
 }
+function generateProductPrice(productType) {
+    // Base prices for each type
+    const basePrices = {
+        "A": 50,
+        "B": 100,
+        "C": 500,
+        "D": 1000
+    };
 
-function generateProductPrice(customerAge) {
-    return customerAge + 15;
+    // Ensure product type exists
+    if (!basePrices[productType]) {
+        throw new Error(`Unknown product type: ${productType}`);
+    }
+
+    return basePrices[productType];
 }
 
 function calculateProductPrice(customerAge, productType, hasReturns, isLoyaltyMember) {
     const MAX_PRODUCT_PRICE = 2000;
+    const MIN_PRODUCT_PRICE = 15;
 
     if (!applyAgeRestrictions(customerAge, productType)) {
         return "Customer does not meet the purchase requirements.";
     }
-    let basePrice = generateProductPrice(customerAge);
-    console.log(basePrice);
+
+    let basePrice = generateProductPrice(productType);
 
     basePrice = applyProductPriceRules(basePrice, productType, hasReturns, isLoyaltyMember);
 
@@ -46,7 +58,10 @@ function calculateProductPrice(customerAge, productType, hasReturns, isLoyaltyMe
         return `Maximum price exceeded: $${MAX_PRODUCT_PRICE}`;
     }
 
+    if (basePrice < MIN_PRODUCT_PRICE) {
+        return `Minimum price not met: $${MIN_PRODUCT_PRICE}`;
+    }
+
     return basePrice;
 }
-
 exports.calculateProductPrice = calculateProductPrice;

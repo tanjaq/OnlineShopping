@@ -38,8 +38,8 @@ describe('OnlineShopping price calculation with product-type base prices', () =>
   });
 
   test('Maximum price never exceeds $2000', () => {
-    const price = calculatePrice.calculateProductPrice(30, 'D', true, true); // type D + return + loyalty
-    expect(price).toBeLessThanOrEqual(2000); // sanity check
+    const price = calculatePrice.calculateProductPrice(30, 'D', true, true); 
+    expect(price).toBeLessThanOrEqual(2000); 
   });
 
   test('Minimum price enforced', () => {

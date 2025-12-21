@@ -6,13 +6,13 @@ test('Test user buying A product', () => {
 
 test('People under 21 cant buy stuff', () => {
   expect(calculatePrice.calculateProductPrice(20, 'A', false, false)).toBe(
-    'You need to be older to buy this product'
+    'Customer does not meet the purchase requirements.'
   );
 });
 
 test('Young adults 21-25 cant get C or D products', () => {
   expect(calculatePrice.calculateProductPrice(22, 'C', false, false)).toBe(
-    'You need to be older to buy this product'
+    'Customer does not meet the purchase requirements.'
   );
 });
 
@@ -30,6 +30,6 @@ test('Loyalty members get 10% off', () => {
 
 test('Price too high shows error', () => {
   expect(calculatePrice.calculateProductPrice(2000, 'A', false, false)).toBe(
-    'Price of this product exceeds the limit of: $2000'
+    'Maximum price exceeded: $2000'
   );
 });

@@ -1,5 +1,5 @@
 function applyAgeRestrictions(customerAge, productType) {
-    if (customerAge <= 21) {
+    if (customerAge < 21) {
         return false;
     }
 
@@ -11,24 +11,26 @@ function applyAgeRestrictions(customerAge, productType) {
 }
 
 function applyProductPriceRules(basePrice, productType, hasReturns, isLoyaltyMember) {
+    let price = basePrice;
 
     if (productType === "D") {
-        basePrice *= 1.20;
+        price *= 1.20;
     }
 
     if (hasReturns) {
-        basePrice += 150;
+        price += 150;
     }
 
     if (isLoyaltyMember) {
-        basePrice *= 0.10;
+        price *= 0.90;
     }
 
-    return basePrice;
+    return price;
 }
 
 function generateProductPrice(customerAge) {
-    return customerAge + 15;
+    const price = customerAge + 15;
+    return price < 15 ? 15 : price;
 }
 
 function calculateProductPrice(customerAge, productType, hasReturns, isLoyaltyMember) {
@@ -37,16 +39,16 @@ function calculateProductPrice(customerAge, productType, hasReturns, isLoyaltyMe
     if (!applyAgeRestrictions(customerAge, productType)) {
         return "Customer does not meet the purchase requirements.";
     }
-    let basePrice = generateProductPrice(customerAge);
-    console.log(basePrice);
 
-    basePrice = applyProductPriceRules(basePrice, productType, hasReturns, isLoyaltyMember);
+    let currentPrice = generateProductPrice(customerAge);
 
-    if (basePrice > MAX_PRODUCT_PRICE) {
+    currentPrice = applyProductPriceRules(currentPrice, productType, hasReturns, isLoyaltyMember);
+
+    if (currentPrice > MAX_PRODUCT_PRICE) {
         return `Maximum price exceeded: $${MAX_PRODUCT_PRICE}`;
     }
 
-    return basePrice;
+    return currentPrice;
 }
 
 exports.calculateProductPrice = calculateProductPrice;
